@@ -1,0 +1,44 @@
+<section class="card">
+    <div class="heading-container">
+        <h2>🔍Find Available Rides</h2>
+        <button (click)="clearAllRides()" class="clear-rides-button" [disabled]="ridesCount === 0">
+            Clear All Rides
+        </button>
+    </div>
+
+
+    <form [formGroup]="form" (ngSubmit)="search()" class="search-form">
+        <label>Desired Time<span class="required-asterisk">*</span></label>
+        <input type="time" formControlName="desiredTime" />
+        <div *ngIf="form.get('desiredTime')?.touched && form.get('desiredTime')?.invalid" class="error-message">
+            Required and must be in HH:mm format
+        </div>
+
+        <label>Vehicle Type</label>
+        <select formControlName="vehicleType">
+            <option *ngFor="let vt of vehicleTypes" [value]="vt">{{vt}}</option>
+        </select>
+
+        <label>Booking Employee ID<span class="required-asterisk">*</span></label>
+        <input formControlName="bookingEmployeeId" placeholder="Employee ID for booking" />
+        <!-- <div *ngIf="form.get('bookingEmployeeId')?.touched && form.get('bookingEmployeeId')?.invalid" class="error-message">
+      Booking Employee ID is required
+    </div> -->
+
+        <div class="actions">
+            <button type="submit" [class.blue-button]="form.valid">Search</button>
+        </div>
+    </form>
+
+    <div *ngIf="message" class="message">{{message}}</div>
+
+    <ul *ngIf="rides.length" class="ride-list">
+        <li *ngFor="let r of rides" class="ride-item">
+            <div><strong>{{r.vehicleType}} — {{r.vehicleNo}}</strong> (Seats: {{r.vacantSeats}})</div>
+            <div>Time: {{formatTimeTo12Hour(r.time)}} — Pickup: {{r.pickupPoint}} — Dest: {{r.destination}}</div>
+            <div>Owner: {{r.ownerEmployeeId}}</div>
+            <div class="actions"><button (click)="book(r)">Book</button></div>
+        </li>
+    </ul>
+
+</section>

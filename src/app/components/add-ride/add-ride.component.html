@@ -1,0 +1,66 @@
+<section class="card">
+    <h2>Add New Ride (Today) 🚖</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- Employee ID -->
+        <label>Employee ID<span class="required-asterisk">*</span></label>
+        <input formControlName="ownerEmployeeId" />
+        <div *ngIf="form.get('ownerEmployeeId')?.touched && form.get('ownerEmployeeId')?.invalid" class="error-message">
+            Employee ID is required
+        </div>
+
+        <!-- Vehicle Type -->
+        <label>Vehicle Type<span class="required-asterisk">*</span></label>
+        <select formControlName="vehicleType">
+            <option value="">Select Vehicle Type</option>
+            <option *ngFor="let v of vehicleTypes" [value]="v">{{ v }}</option>
+        </select>
+        <div *ngIf="form.get('vehicleType')?.touched && form.get('vehicleType')?.invalid" class="error-message">
+            Please select a vehicle type
+        </div>
+
+        <!-- Vehicle No -->
+        <label>Vehicle No<span class="required-asterisk">*</span></label>
+        <input formControlName="vehicleNo" />
+        <div *ngIf="form.get('vehicleNo')?.touched && form.get('vehicleNo')?.invalid" class="error-message">
+            Vehicle Number is required
+        </div>
+
+        <!-- Vacant Seats -->
+        <label>Vacant Seats<span class="required-asterisk">*</span></label>
+        <input type="number" formControlName="vacantSeats" min="1" />
+        <div *ngIf="form.get('vacantSeats')?.touched && form.get('vacantSeats')?.invalid" class="error-message">
+            Vacant Seats must be at least 1
+        </div>
+
+        <!-- Time -->
+        <label>Time (HH:mm)<span class="required-asterisk">*</span></label>
+        <input type="time" formControlName="time" />
+        <div *ngIf="form.get('time')?.touched && form.get('time')?.invalid" class="error-message">
+            Please enter a valid time in HH:mm format
+        </div>
+
+        <!-- Pickup Point -->
+        <label>Pickup Point<span class="required-asterisk">*</span></label>
+        <input formControlName="pickupPoint" />
+        <div *ngIf="form.get('pickupPoint')?.touched && form.get('pickupPoint')?.invalid" class="error-message">
+            Pickup Point is required
+        </div>
+
+        <!-- Destination -->
+        <label>Destination<span class="required-asterisk">*</span></label>
+        <input formControlName="destination" />
+        <div *ngIf="form.get('destination')?.touched && form.get('destination')?.invalid" class="error-message">
+            Destination is required
+        </div>
+
+        <!-- Submit Button -->
+        <div class="actions">
+            <button type="submit" [class.blue-button]="form.valid" [disabled]="form.invalid">Add Ride</button>
+            <button type="button" (click)="resetForm()" class="reset-button">Reset</button>
+        </div>
+
+        <!-- Success / Info Message -->
+        <div *ngIf="message" class="message">{{ message }}</div>
+    </form>
+</section>
